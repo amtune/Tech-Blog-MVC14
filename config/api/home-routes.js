@@ -125,4 +125,19 @@ router.get("/", async (req, res) => {
         ],
       });
 
-      
+
+      if (!dbPostData) {
+        res.status(404).json({ message: "No post found with this id" });
+        return;
+      }
+      const post = dbPostData.get({ plain: true });
+
+      res.render("posts-comments", { post, loggedIn: req.session.loggedIn });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  
+});
+
+module.exports = router;
